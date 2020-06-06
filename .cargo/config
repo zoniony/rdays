@@ -1,2 +1,5 @@
 [build]
 target = "rdays.json"
+
+[target.'cfg(target_os = "none")']
+runner = "bootimage runner"
