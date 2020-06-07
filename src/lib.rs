@@ -33,6 +33,7 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {    
     serial_println!("Begin Test:");
+    init();
     test_main();
     loop {} //remove the line will return ()
 }
@@ -52,6 +53,12 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("Error: {}\n", info);
     exit_qemu(QemuExitCode::Failed);
     loop {}
+}
+
+
+pub fn init() {
+    //println!("?");
+    interrupts::init_idt(); 
 }
 
 #[cfg(test)]

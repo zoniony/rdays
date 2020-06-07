@@ -11,9 +11,13 @@ use core::panic::PanicInfo;
 pub extern "C" fn _start() -> ! {
     
     println!("cnm");
+
+    //invoke int3
+    rdays::init();
+    x86_64::instructions::interrupts::int3();
+    
     #[cfg(test)]
     test_main();
-
     loop {}
 
 }
