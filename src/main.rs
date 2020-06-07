@@ -12,15 +12,22 @@ pub extern "C" fn _start() -> ! {
     
     println!("cnm");
 
-    //invoke int3
+    //invoke
     rdays::init();
-    x86_64::instructions::interrupts::int3();
-    
+
+    //trigger double fault
+    stack_overflow();
+
     #[cfg(test)]
     test_main();
     loop {}
-
 }
+
+#[allow(unconditional_recursion)]
+fn stack_overflow() {
+    stack_overflow();
+}
+
 
 #[cfg(not(test))]
 #[panic_handler]
