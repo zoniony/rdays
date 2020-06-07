@@ -1,11 +1,14 @@
 #![no_std]
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)] 
+#![feature(abi_x86_interrupt)]
 #![test_runner(crate::test_runner)] //https://doc.rust-lang.org/nightly/unstable-book/language-features/custom-test-frameworks.html
 #![reexport_test_harness_main = "test_main"] //https://github.com/rust-lang/rust/blob/master/src/librustc_builtin_macros/test_harness.rs
 
+
 pub mod serial;
 pub mod vga_buffer;
+pub mod interrupts;
 
 use core::panic::PanicInfo;
 // auto exit qmeu 
