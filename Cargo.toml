@@ -1,5 +1,5 @@
 [package]
-name = "zoniony"
+name = "rdays"
 version = "0.1.0"
 authors = ["zoniony <ret2onion@gmail.com>"]
 edition = "2018"

@@ -4,27 +4,11 @@
 #![test_runner(crate::test_runner)] //https://doc.rust-lang.org/nightly/unstable-book/language-features/custom-test-frameworks.html
 #![reexport_test_harness_main = "test_main"] //https://github.com/rust-lang/rust/blob/master/src/librustc_builtin_macros/test_harness.rs
 
-use core::panic::PanicInfo;
 pub mod serial;
 pub mod vga_buffer;
 
-
-pub fn test_runner(tests: &[&dyn Fn()]) {
-    serial_println!("Running {} tests", tests.len());
-    for test in tests {
-        test();
-    }
-    exit_qemu(QemuExitCode::Success);
-}
-
-pub fn test_panic_handler(info: &PanicInfo) -> ! {
-    serial_println!("[Failed]\n");
-    serial_println!("Error: {}\n", info);
-    exit_qemu(QemuExitCode::Failed);
-    loop {}
-}
-
-
+use core::panic::PanicInfo;
+// auto exit qmeu 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum QemuExitCode {
@@ -41,10 +25,34 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
     }
 }
 
+//entry
 #[cfg(test)]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {    
     serial_println!("Begin Test:");
     test_main();
     loop {} //remove the line will return ()
+}
+
+//custom test frameworks handler runners
+pub fn test_runner(tests: &[&dyn Fn()]) {
+    serial_println!("Running {} tests", tests.len());
+    for test in tests {
+        test();
+    }
+    exit_qemu(QemuExitCode::Success);
+}
+
+//handler Failed case
+pub fn test_panic_handler(info: &PanicInfo) -> ! {
+    serial_println!("[Failed]\n");
+    serial_println!("Error: {}\n", info);
+    exit_qemu(QemuExitCode::Failed);
+    loop {}
+}
+
+#[cfg(test)]
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+    test_panic_handler(info);
 }

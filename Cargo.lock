@@ -28,6 +28,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "rdays"
+version = "0.1.0"
+dependencies = [
+ "bootloader",
+ "lazy_static",
+ "spin",
+ "uart_16550",
+ "volatile",
+ "x86_64",
+]
+
+[[package]]
 name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -57,16 +69,4 @@ checksum = "365de37eb7c6da582cbb510dd0f3f1235d24ff6309a8a96e8a9909cc9bfd608f"
 dependencies = [
  "bit_field",
  "bitflags",
-]
-
-[[package]]
-name = "zoniony"
-version = "0.1.0"
-dependencies = [
- "bootloader",
- "lazy_static",
- "spin",
- "uart_16550",
- "volatile",
- "x86_64",
 ]
