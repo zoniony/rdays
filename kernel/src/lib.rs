@@ -6,8 +6,11 @@
 #![reexport_test_harness_main = "test_main"] //https://github.com/rust-lang/rust/blob/master/src/librustc_builtin_macros/test_harness.rs
 
 pub mod util;
+
+//#[path = "arch/x86_64/mod.rs"]
 pub mod arch;
-use crate::arch::x86_64::interrupts::init_idt;
+
+pub use crate::arch::interrupts;
 use core::panic::PanicInfo;
 
 // auto exit qmeu 
@@ -63,5 +66,5 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 pub fn init() {
-    init_idt();
+    interrupts::init_idt();
 }
