@@ -5,13 +5,11 @@
 #![test_runner(crate::test_runner)] //https://doc.rust-lang.org/nightly/unstable-book/language-features/custom-test-frameworks.html
 #![reexport_test_harness_main = "test_main"] //https://github.com/rust-lang/rust/blob/master/src/librustc_builtin_macros/test_harness.rs
 
-
-pub mod serial;
-pub mod vga_buffer;
-pub mod interrupts;
-pub mod gdt;
-
+pub mod util;
+pub mod arch;
+use crate::arch::x86_64::interrupts::init_idt;
 use core::panic::PanicInfo;
+
 // auto exit qmeu 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
@@ -34,10 +32,10 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {    
     serial_println!("Begin Test:");
-    init();
     test_main();
     loop {} //remove the line will return ()
 }
+
 
 //custom test frameworks handler runners
 pub fn test_runner(tests: &[&dyn Fn()]) {
@@ -48,6 +46,7 @@ pub fn test_runner(tests: &[&dyn Fn()]) {
     exit_qemu(QemuExitCode::Success);
 }
 
+
 //handler Failed case
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("[Failed]\n");
@@ -57,14 +56,12 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
 }
 
 
-pub fn init() {
-    //println!("?");
-    gdt::init();    
-    interrupts::init_idt(); 
-}
-
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     test_panic_handler(info);
+}
+
+pub fn init() {
+    init_idt();
 }
