@@ -7,10 +7,10 @@
 
 pub mod util;
 
-//#[path = "arch/x86_64/mod.rs"]
+#[path = "arch/x86_64/mod.rs"]
 pub mod arch;
 
-pub use crate::arch::interrupts;
+pub use crate::arch::*;
 use core::panic::PanicInfo;
 
 // auto exit qmeu 
@@ -66,5 +66,6 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 pub fn init() {
-    interrupts::init_idt();
+    gdt::init();
+    interrupts::init();
 }

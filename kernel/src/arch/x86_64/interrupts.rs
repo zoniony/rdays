@@ -19,6 +19,7 @@ pub fn init_idt() {
 */
 
 //lazy initialization idt
+
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
         let mut idt = InterruptDescriptorTable::new();
@@ -43,7 +44,7 @@ extern "x86-interrupt" fn double_fault_handler(stack_frame: &mut InterruptStackF
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
 }
 
-pub fn init_idt() {
+pub fn init() {
     IDT.load();
 }
 
