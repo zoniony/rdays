@@ -59,6 +59,13 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
 }
 
 
+pub fn hlt_loop() -> ! {
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
+
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
