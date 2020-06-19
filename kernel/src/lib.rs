@@ -76,3 +76,4 @@ pub fn init() {
     gdt::init();
     interrupts::init();
 }
+
