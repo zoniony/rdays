@@ -10,7 +10,6 @@ pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static>
     OffsetPageTable::new(level_4_table, physical_memory_offset)
 }
 
-
 pub unsafe fn active_level_4_table(physical_memory_offset: VirtAddr) -> &'static mut PageTable {
     
     use x86_64::registers::control::Cr3;
@@ -47,14 +46,15 @@ unsafe impl FrameAllocator<Size4KiB> for EmptyFrameAllocator {
     }
 }
 
-pub struct BootinfoFrameAllocator {
+pub struct BootInfoFrameAllocator {
     memory_map: &'static MemoryMap,
     next: usize,
 }
 
-impl BootinfoFrameAllocator {
+impl BootInfoFrameAllocator {
+
     pub unsafe fn init(memory_map: &'static MemoryMap) -> Self {
-        BootinfoFrameAllocator {
+        BootInfoFrameAllocator {
             memory_map,
             next: 0,
         }
@@ -69,7 +69,7 @@ impl BootinfoFrameAllocator {
     }
 }
 
-unsafe impl FrameAllocator<Size4KiB> for BootinfoFrameAllocator {
+unsafe impl FrameAllocator<Size4KiB> for BootInfoFrameAllocator {
     fn allocate_frame(&mut self) -> Option<PhysFrame> {
         let frame = self.usable_frame().nth(self.next);
         self.next += 1;
