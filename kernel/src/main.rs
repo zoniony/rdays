@@ -30,7 +30,8 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     allocator::heap_init(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
 
-    let _x = Box::new(233);
+    let x = Box::new(233);
+    println!("x address -> {:p}", x);
 
 
     #[cfg(test)]
