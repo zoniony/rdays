@@ -5,11 +5,12 @@
 #![test_runner(crate::test_runner)] //https://doc.rust-lang.org/nightly/unstable-book/language-features/custom-test-frameworks.html
 #![reexport_test_harness_main = "test_main"] //https://github.com/rust-lang/rust/blob/master/src/librustc_builtin_macros/test_harness.rs
 
-pub mod util;
+extern crate alloc;
 
+pub mod util;
 #[path = "arch/x86_64/mod.rs"]
 pub mod arch;
-
+pub mod allocator;
 pub use crate::arch::*;
 use core::panic::PanicInfo;
 
