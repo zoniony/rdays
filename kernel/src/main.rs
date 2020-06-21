@@ -50,5 +50,3 @@ fn panic(info: &PanicInfo) -> ! {
 fn panic(info: &PanicInfo) -> ! {
     kernel::test_panic_handler(info)
 }
-//0x7ea7  load_next_kernel_block_from_disk
-//0x18000001000 p4_table
