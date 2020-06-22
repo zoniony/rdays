@@ -8,9 +8,9 @@ pub const HEAP_START: usize = 0x_4444_4444_0000;
 pub const HEAP_SIZE:  usize = 100 * 1024;
 
 
+//TODO: Finish Buddy Allocator
 #[global_allocator]
 static ALLOCATOR: LockedHeap = LockedHeap::empty();
-//static ALLOCATOR: Dummy = Dummy;
 
 pub struct Dummy;
 

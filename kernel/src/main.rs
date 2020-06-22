@@ -30,9 +30,14 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     allocator::heap_init(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
 
-    let x = Box::new(233);
-    println!("x address -> {:p}", x);
+    async fn async_number() -> u32 {
+        42
+    }
 
+    async fn example_task() {
+        let number = async_number().await;
+        println!("{}", number);
+    }
 
     #[cfg(test)]
     test_main();

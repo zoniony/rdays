@@ -11,6 +11,7 @@ extern crate alloc;
 pub mod util;
 #[path = "arch/x86_64/mod.rs"]
 pub mod arch;
+pub mod task;
 pub mod allocator;
 pub use crate::arch::*;
 use core::panic::PanicInfo;
